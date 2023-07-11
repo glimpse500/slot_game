@@ -19,10 +19,12 @@
       <h2 class="text-center text-light my-3 gold"><i class="fab fa-phoenix-framework gold"></i> Slot Game</h2>
 		<form id="form"> 
 		 <div class="form-group">
-			  <h4 class="text-center text-light my-3 blue"> Style 
+			  <h4 class="text-center" style="color:blue"> Style 
 			  <input type='text' name='description' value='Pokemon'> 
 			  <button type="submit" id="button-send" >Send</button>
+			  <h5 class="text-center" id="state">  </h5>
 			  </h4>
+			  
 		 </div>
 		</form>
       <div class="row justify-content-center mb-3">
@@ -232,6 +234,10 @@
 			if (form.description === ''){
 				console.log("No Style Applied")
 			} else { 
+				document.getElementById("button-send").style.visibility = "hidden";
+				const state = document.getElementById("state");
+				state.innerHTML = "Generating AI image...";
+				state.style.color = "red";
 				console.log(form.description.value);
                 fetch(host, { 
 				method: 'POST',
@@ -267,7 +273,8 @@
 					}
 
 					initial(aiImages)
-					document.getElementById("button-send").style.visibility = "hidden";
+					state.innerHTML = "AI Image Generaged!!!";
+					state.style.color = "green";
 					
 				}).catch((error) => {
 					console.error(error);

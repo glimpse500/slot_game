@@ -58,6 +58,7 @@ const test_res =
 
 app.post('/style', async function(req, res) {
 	if (DEBUG){
+		await new Promise(r => setTimeout(r, 1000));
 		res.send(test_res);
 	}
 	else{
@@ -73,16 +74,16 @@ app.post('/style', async function(req, res) {
 				{
 				  "url": response.data.data[0].url
 				},
-							{
+				{
 				  "url": response.data.data[1].url
 				},
-								{
+				{
 				  "url": response.data.data[2].url
 				},
-								{
+				{
 				  "url": response.data.data[3].url
 				},
-								{
+				{
 				  "url": response.data.data[4].url
 				},
 			  ]
