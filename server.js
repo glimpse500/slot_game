@@ -4,11 +4,13 @@ const express = require('express')
 
 // Create a new instance of express
 const app = express()
-
+const PORT = 8080
+const IP_ADDRESS = '10.182.0.2'
 app.use(express.json({
   type: "*/*"
 }))
 
+console.log("DEBUG key = ",process.env.OPENAI_API_KEY);
 
 const test_res = 
 {
@@ -23,23 +25,19 @@ const test_res =
   ]
 }
 
-
 app.post('/style', function(req, res) {
-    console.log(req.body.style);
-	console.log(process.env.OPENAI_API_KEY);
+    console.log("Receive style = ",req.body.style);
     res.send(JSON.stringify(test_res));
 });
-const server = app.listen(8080, () => { // create a HTTP server on port 3000
-    console.log(`Express running → PORT ${server.address().port}`)
-});
+
+function onServerListening(){
+    console.log("Listen on ", IP_ADDRESS, ":", PORT);
+}
+var server = app.listen(PORT, IP_ADDRESS, onServerListening);
 
 app.use(express.static(__dirname, { // host the whole directory
         extensions: ["html", "htm", "gif", "png"],
     }))
-console.log(process.env.OPENAI_API_KEY);
-console.log(test_res.data[0].url);
-
-
 app.get("*", (req, res) => {
     return res.sendStatus(404)
 })
