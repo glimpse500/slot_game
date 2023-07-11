@@ -245,12 +245,12 @@
 				}).then((info) => {
 					console.log(info);
 					const json = JSON.parse(info);
-					aiImage = []
-					aiImage.push(json.data[0].url)
-					aiImage.push(json.data[1].url)
-					aiImage.push(json.data[2].url)
-					aiImage.push(json.data[3].url)
-					aiImage.push(json.data[4].url)
+					aiImages = []
+					aiImages.push(json.data[0].url)
+					aiImages.push(json.data[1].url)
+					aiImages.push(json.data[2].url)
+					aiImages.push(json.data[3].url)
+					aiImages.push(json.data[4].url)
 					
 					for (let i = 0; i < 6; i++) {
 					  console.log(Bar1xIDs[i].src);
@@ -266,7 +266,9 @@
 					  img.src = json.data[4].url;
 					}
 
-					initial(aiImage)
+					initial(aiImages)
+					document.getElementById("button-send").style.visibility = "hidden";
+					
 				}).catch((error) => {
 					console.error(error);
 				})

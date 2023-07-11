@@ -73,6 +73,18 @@ app.post('/style', async function(req, res) {
 				{
 				  "url": response.data.data[0].url
 				},
+							{
+				  "url": response.data.data[1].url
+				},
+								{
+				  "url": response.data.data[2].url
+				},
+								{
+				  "url": response.data.data[3].url
+				},
+								{
+				  "url": response.data.data[4].url
+				},
 			  ]
 			}
 			res.send(JSON.stringify(my_res));
