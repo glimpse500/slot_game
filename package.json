@@ -2,6 +2,7 @@
   "name": "slot-game",
   "version": "1.0.0",
   "description": "Javascript 3x3 slot game",
+  "type": "module",
   "scripts": {
     "format:code": "npx prettier --write .",
     "format:check": "npx prettier --check .",

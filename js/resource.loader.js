@@ -13,9 +13,7 @@ const Resources = (function (loader, global) {
     const split = resource.split('.'),
       extension = split[split.length - 1];
 	console.log(extension)
-    if (IMG_ALLOWED_TYPES.includes(extension)) {
-      $resources.push(resource);
-    }
+    $resources.push(resource);
   });
 
   this.onLoad = function (fns) {

@@ -228,7 +228,7 @@
 		}
 		sendStyle = (e) => {
 			e.preventDefault();
-            const host = 'http://34.125.85.225:8080/style';
+            const host = 'style';
 			if (form.description === ''){
 				console.log("No Style Applied")
 			} else { 
@@ -252,6 +252,7 @@
 					  var img = document.getElementById(Bar1xIDs[i]);
 					  img.src = json.data[0].url;
 					}
+					aiImage.push("https://oaidalleapiprodscus.blob.core.windows.net/private/org-rQS7kOOKMzgtWE2cAYaJsrvv/user-93F8ptkf2yVTNWkFSacPFv7r/img-AL69XVw8BK7YA4fuDQnIRX8B.png?st=2023-07-11T15%3A18%3A44Z&se=2023-07-11T17%3A18%3A44Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-07-10T23%3A41%3A25Z&ske=2023-07-11T23%3A41%3A25Z&sks=b&skv=2021-08-06&sig=B%2B%2Bzh38XHda6/G1DFnveIZ2R3RLPwJN5Yc/2qyxU%2BYM%3D")
 					initial(aiImage)
 				}).catch((error) => {
 					console.error(error);

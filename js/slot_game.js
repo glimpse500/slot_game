@@ -39,7 +39,7 @@ function initial(aiImages){
 	  console.log("AI image", window.aiImage);
       //Resource loader
 	  
-      Resources(aiImages[0], './img/2xBAR.png', './img/3xBAR.png', './img/7.png', './img/Cherry.png').onLoad(
+      Resources(aiImages[0], aiImages[1], './img/3xBAR.png', './img/7.png', './img/Cherry.png').onLoad(
         function (resources, names) {
           //loading done and ready to go
           //save loaded resources to conf.img
