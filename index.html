@@ -20,7 +20,7 @@
 		<form id="form"> 
 		 <div class="form-group">
 			  <h4 class="text-center text-light my-3 blue"> Style 
-			  <input type='text' name='description' value='Apple'> 
+			  <input type='text' name='description' value='Pokemon'> 
 			  <button type="submit" id="button-send" >Send</button>
 			  </h4>
 		 </div>
@@ -247,12 +247,25 @@
 					const json = JSON.parse(info);
 					aiImage = []
 					aiImage.push(json.data[0].url)
+					aiImage.push(json.data[1].url)
+					aiImage.push(json.data[2].url)
+					aiImage.push(json.data[3].url)
+					aiImage.push(json.data[4].url)
+					
 					for (let i = 0; i < 6; i++) {
 					  console.log(Bar1xIDs[i].src);
 					  var img = document.getElementById(Bar1xIDs[i]);
 					  img.src = json.data[0].url;
+					  img = document.getElementById(Bar2xIDs[i]);
+					  img.src = json.data[1].url;
+					  img = document.getElementById(Bar3xIDs[i]);
+					  img.src = json.data[2].url;
+					  img = document.getElementById(SeveneIDs[i]);
+					  img.src = json.data[3].url;
+					  img = document.getElementById(CherryIDs[i]);
+					  img.src = json.data[4].url;
 					}
-					aiImage.push("https://oaidalleapiprodscus.blob.core.windows.net/private/org-rQS7kOOKMzgtWE2cAYaJsrvv/user-93F8ptkf2yVTNWkFSacPFv7r/img-AL69XVw8BK7YA4fuDQnIRX8B.png?st=2023-07-11T15%3A18%3A44Z&se=2023-07-11T17%3A18%3A44Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-07-10T23%3A41%3A25Z&ske=2023-07-11T23%3A41%3A25Z&sks=b&skv=2021-08-06&sig=B%2B%2Bzh38XHda6/G1DFnveIZ2R3RLPwJN5Yc/2qyxU%2BYM%3D")
+
 					initial(aiImage)
 				}).catch((error) => {
 					console.error(error);

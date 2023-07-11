@@ -25,7 +25,7 @@ async function createImage(my_prompt){
 	console.log("Prompt = ", my_prompt);
 	const response = await openai.createImage({
 	  prompt: my_prompt,
-	  n: 1,
+	  n: 5,
 	  size: "256x256",
 	});
 	return response;
@@ -42,7 +42,16 @@ const test_res =
       "url": "https://www.kindpng.com/picc/m/107-1075517_-hd-png-download.png"
     },
     {
-      "url": "https://123"
+      "url": "./img/2xBAR.png"
+    },
+	{
+      "url": "./img/3xBAR.png"
+    },   
+	{
+      "url": "./img/7.png"
+    },    
+	{
+      "url": "./img/Cherry.png"
     }
   ]
 }

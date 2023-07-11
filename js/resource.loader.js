@@ -12,7 +12,6 @@ const Resources = (function (loader, global) {
   resources.forEach((resource) => {
     const split = resource.split('.'),
       extension = split[split.length - 1];
-	console.log(extension)
     $resources.push(resource);
   });
 
