@@ -34,11 +34,12 @@ const conf = {
 };
 
 function initial(aiImages,sound) {
-    console.log(aiImages)
-    window.aiImage = []
+    console.log("Initialze:", aiImages,sound);
+    window.aiImage = [];
     console.log("AI image", window.aiImage);
     //Resource loader
-	conf.sound.spin = new Audio(sound)
+	conf.sound.spin = new Audio(sound);
+	console.log(conf.sound.spin);
     Resources(aiImages[0], aiImages[1], aiImages[2], aiImages[3], aiImages[4]).onLoad(
         function (resources, names) {
             //loading done and ready to go

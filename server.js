@@ -6,8 +6,8 @@ import { Configuration, OpenAIApi } from "openai";
 import Replicate from "replicate";
 
 // DEBUG
-const DEBUG_IMG = true;
-const DEBUG_MUSIC = true;
+const DEBUG_IMG = false;
+const DEBUG_MUSIC = false;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,8 +15,8 @@ const __dirname = path.dirname(__filename);
 // Create a new instance of express
 const app = express();
 const PORT = 8080;
-const IP_ADDRESS = '127.0.0.1';
-//const IP_ADDRESS = '10.182.0.2';
+//const IP_ADDRESS = '127.0.0.1';
+const IP_ADDRESS = '10.182.0.2';
 
 app.use(express.json({
     type: "*/*"
@@ -46,12 +46,12 @@ async function createMusic(my_prompt) {
         {
             input: {
                 prompt: my_prompt,
-                model_version: "melody",
+                model_version: "large",
                 normalization_strategy: "peak",
-                duration: 7,
+                duration: 3,
                 top_k: 100,
                 classifier_free_guidance: 3,
-                output_format: "mp3"
+                output_format: "wav"
             }
         }
     );
@@ -69,7 +69,7 @@ app.post('/style', async function (req, res) {
             { "url": "./img/7.png" },
             { "url": "./img/Cherry.png" }
         ],
-        "sound": "/sound/spin.mp3"
+        "sound": "./sound/spin.mp3"
     }
     console.log("Receive img_style = ", req.body.img_style);
     console.log("Receive music_style = ", req.body.music_style);
@@ -77,7 +77,7 @@ app.post('/style', async function (req, res) {
         await new Promise(r => setTimeout(r, 500));
     } else {
         try {
-            const response = await createMusic(req.body.img_style);
+            const response = await createImage(req.body.img_style);
             ai_result.data[0].url = response.data.data[0].url;
             ai_result.data[1].url = response.data.data[1].url;
             ai_result.data[2].url = response.data.data[2].url;
@@ -92,7 +92,7 @@ app.post('/style', async function (req, res) {
         await new Promise(r => setTimeout(r, 500));
     } else {
         try {
-            const response = await createImage(req.body.music_style);
+            const response = await createMusic(req.body.music_style);
             ai_result.sound = response;
         } catch (error) {
             console.error(error);

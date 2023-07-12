@@ -25,7 +25,7 @@
                 </h4>
                 <h4 class="text-center" style="color:blue">
                     Music style
-                    <input type='text' name='music_description' value='Coins drop on table'>
+                    <input type='text' name='music_description' value='Coin banging'>
                 </h4>
                 <h5 class="text-center" id="state"> <button type="submit" id="button-send">Send</button> </h5>
             </div>
@@ -237,10 +237,10 @@
             } else {
                 document.getElementById("button-send").style.visibility = "hidden";
                 const state = document.getElementById("state");
-                state.innerHTML = "Generating ai image...";
+                state.innerHTML = "Generating ai image and music...";
                 state.style.color = "red";
                 console.log("Image style:", form.img_description.value);
-				console.log("Image style:", form.music_description.value);
+                console.log("Image style:", form.music_description.value);
                 fetch(host, {
                     method: 'POST',
                     body: JSON.stringify({
@@ -262,7 +262,7 @@
                     aiImages.push(json.data[2].url);
                     aiImages.push(json.data[3].url);
                     aiImages.push(json.data[4].url);
-                    const sound = json.data.sound;
+                    const sound = json.sound;
                     for (let i = 0; i < 6; i++) {
                         console.log(Bar1xIDs[i].src);
                         var img = document.getElementById(Bar1xIDs[i]);
@@ -278,7 +278,7 @@
                     }
 
                     initial(aiImages, sound)
-                    state.innerHTML = "AI image is generated!!!";
+                    state.innerHTML = "AI image and music are generated!!!";
                     state.style.color = "green";
 
                 }).catch((error) => {
