@@ -20,12 +20,14 @@
         <form id="form">
             <div class="form-group">
                 <h4 class="text-center" style="color:blue">
-                    Style
-                    <input type='text' name='description' value='Pokemon'>
-                    <button type="submit" id="button-send">Send</button>
-                    <h5 class="text-center" id="state">  </h5>
+                    Image style
+                    <input type='text' name='img_description' value='Pokemon'>
                 </h4>
-
+                <h4 class="text-center" style="color:blue">
+                    Music style
+                    <input type='text' name='music_description' value='Coins drop on table'>
+                </h4>
+                <h5 class="text-center" id="state"> <button type="submit" id="button-send">Send</button> </h5>
             </div>
         </form>
         <div class="row justify-content-center mb-3">
@@ -230,60 +232,64 @@
         sendStyle = (e) => {
             e.preventDefault();
             const host = 'style';
-			if (form.description === ''){
-				console.log("No Style Applied")
-			} else { 
-				document.getElementById("button-send").style.visibility = "hidden";
-				const state = document.getElementById("state");
-				state.innerHTML = "Generating ai image...";
-				state.style.color = "red";
-				console.log(form.description.value);
-                fetch(host, { 
-				method: 'POST',
-				body: JSON.stringify({"style" : form.description.value}),
-				headers: {
-					'Content-type': 'application/json'
-				}
-				}).then((response) => {
-					console.log(response);
-					return response.text();
-				}).then((info) => {
-					console.log(info);
-					const json = JSON.parse(info);
-					aiImages = []
-					aiImages.push(json.data[0].url)
-					aiImages.push(json.data[1].url)
-					aiImages.push(json.data[2].url)
-					aiImages.push(json.data[3].url)
-					aiImages.push(json.data[4].url)
-					
-					for (let i = 0; i < 6; i++) {
-					  console.log(Bar1xIDs[i].src);
-					  var img = document.getElementById(Bar1xIDs[i]);
-					  img.src = json.data[0].url;
-					  img = document.getElementById(Bar2xIDs[i]);
-					  img.src = json.data[1].url;
-					  img = document.getElementById(Bar3xIDs[i]);
-					  img.src = json.data[2].url;
-					  img = document.getElementById(SeveneIDs[i]);
-					  img.src = json.data[3].url;
-					  img = document.getElementById(CherryIDs[i]);
-					  img.src = json.data[4].url;
-					}
+            if (form.img_description === '' || form.music_description === '') {
+                console.log("Invalid style Applied")
+            } else {
+                document.getElementById("button-send").style.visibility = "hidden";
+                const state = document.getElementById("state");
+                state.innerHTML = "Generating ai image...";
+                state.style.color = "red";
+                console.log("Image style:", form.img_description.value);
+				console.log("Image style:", form.music_description.value);
+                fetch(host, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "img_style": form.img_description.value,
+                        "music_style": form.music_description.value
+                    }),
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                }).then((response) => {
+                    console.log(response);
+                    return response.text();
+                }).then((info) => {
+                    console.log(info);
+                    const json = JSON.parse(info);
+                    aiImages = [];
+                    aiImages.push(json.data[0].url);
+                    aiImages.push(json.data[1].url);
+                    aiImages.push(json.data[2].url);
+                    aiImages.push(json.data[3].url);
+                    aiImages.push(json.data[4].url);
+                    const sound = json.data.sound;
+                    for (let i = 0; i < 6; i++) {
+                        console.log(Bar1xIDs[i].src);
+                        var img = document.getElementById(Bar1xIDs[i]);
+                        img.src = json.data[0].url;
+                        img = document.getElementById(Bar2xIDs[i]);
+                        img.src = json.data[1].url;
+                        img = document.getElementById(Bar3xIDs[i]);
+                        img.src = json.data[2].url;
+                        img = document.getElementById(SeveneIDs[i]);
+                        img.src = json.data[3].url;
+                        img = document.getElementById(CherryIDs[i]);
+                        img.src = json.data[4].url;
+                    }
 
-					initial(aiImages)
-					state.innerHTML = "AI image is generated!!!";
-					state.style.color = "green";
-					
-				}).catch((error) => {
-					console.error(error);
-				})
-			}
-		};
-		document.getElementById("button-send").addEventListener('click', sendStyle);
-	</script>
-	
-	<script type="text/javascript" src="./js/slot_game.js"></script>
+                    initial(aiImages, sound)
+                    state.innerHTML = "AI image is generated!!!";
+                    state.style.color = "green";
+
+                }).catch((error) => {
+                    console.error(error);
+                })
+            }
+        };
+        document.getElementById("button-send").addEventListener('click', sendStyle);
+    </script>
+
+    <script type="text/javascript" src="./js/slot_game.js"></script>
     <script src="./js/reel.js"></script>
     <script src="./js/slot.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" i></script>

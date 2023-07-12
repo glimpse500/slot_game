@@ -3,20 +3,25 @@ import express from 'express'
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { Configuration, OpenAIApi } from "openai";
+import Replicate from "replicate";
 
-const DEBUG = true;
+// DEBUG
+const DEBUG_IMG = true;
+const DEBUG_MUSIC = true;
 
 const __filename = fileURLToPath(import.meta.url);
-
 const __dirname = path.dirname(__filename);
+
 // Create a new instance of express
 const app = express();
 const PORT = 8080;
-//const IP_ADDRESS = '127.0.0.0.1';
-const IP_ADDRESS = '10.182.0.2';
+const IP_ADDRESS = '127.0.0.1';
+//const IP_ADDRESS = '10.182.0.2';
+
 app.use(express.json({
     type: "*/*"
 }))
+
 
 async function createImage(my_prompt) {
     const configuration = new Configuration({
@@ -32,68 +37,68 @@ async function createImage(my_prompt) {
     return response;
 }
 
-
-console.log("DEBUG key = ", process.env.OPENAI_API_KEY);
-
-const test_res =
-{
-    "created": 1589478378,
-    "data": [
+async function createMusic(my_prompt) {
+    const replicate = new Replicate({
+        auth: process.env.REPLICATE_API_TOKEN,
+    });
+    const output = await replicate.run(
+        "facebookresearch/musicgen:7a76a8258b23fae65c5a22debb8841d1d7e816b75c2f24218cd2bd8573787906",
         {
-            "url": "https://www.kindpng.com/picc/m/107-1075517_-hd-png-download.png"
-        },
-        {
-            "url": "./img/2xBAR.png"
-        },
-        {
-            "url": "./img/3xBAR.png"
-        },
-        {
-            "url": "./img/7.png"
-        },
-        {
-            "url": "./img/Cherry.png"
+            input: {
+                prompt: my_prompt,
+                model_version: "melody",
+                normalization_strategy: "peak",
+                duration: 7,
+                top_k: 100,
+                classifier_free_guidance: 3,
+                output_format: "mp3"
+            }
         }
-    ]
+    );
+    console.log("Music url: ", output);
+    return output;
 }
 
 app.post('/style', async function (req, res) {
-    if (DEBUG) {
-        await new Promise(r => setTimeout(r, 1000));
-        res.send(test_res);
+    const ai_result =
+    {
+        "data": [
+            { "url": "./img/BAR.png" },
+            { "url": "./img/2xBAR.png" },
+            { "url": "./img/3xBAR.png" },
+            { "url": "./img/7.png" },
+            { "url": "./img/Cherry.png" }
+        ],
+        "sound": "/sound/spin.mp3"
     }
-    else {
+    console.log("Receive img_style = ", req.body.img_style);
+    console.log("Receive music_style = ", req.body.music_style);
+    if (DEBUG_IMG) {
+        await new Promise(r => setTimeout(r, 500));
+    } else {
         try {
-            console.log("Receive style = ", req.body.style);
+            const response = await createMusic(req.body.img_style);
+            ai_result.data[0].url = response.data.data[0].url;
+            ai_result.data[1].url = response.data.data[1].url;
+            ai_result.data[2].url = response.data.data[2].url;
+            ai_result.data[3].url = response.data.data[3].url;
+            ai_result.data[4].url = response.data.data[4].url;
 
-            const response = await createImage(req.body.style);
-
-            console.log(response.data.data[0].url);
-            const my_res =
-            {
-                "data": [
-                    {
-                        "url": response.data.data[0].url
-                    },
-                    {
-                        "url": response.data.data[1].url
-                    },
-                    {
-                        "url": response.data.data[2].url
-                    },
-                    {
-                        "url": response.data.data[3].url
-                    },
-                    {
-                        "url": response.data.data[4].url
-                    },
-                ]
-            }
-            res.send(JSON.stringify(my_res));
         } catch (error) {
             console.error(error);
         }
     }
+    if (DEBUG_MUSIC) {
+        await new Promise(r => setTimeout(r, 500));
+    } else {
+        try {
+            const response = await createImage(req.body.music_style);
+            ai_result.sound = response;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    res.send(JSON.stringify(ai_result));
 });
 
 function onServerListening() {
