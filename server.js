@@ -4,15 +4,16 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { Configuration, OpenAIApi } from "openai";
 
-const DEBUG = true;
+const DEBUG = false;
 
 const __filename = fileURLToPath(import.meta.url);
 
-const __dirname = path.dirname(__filename)
+const __dirname = path.dirname(__filename);
 // Create a new instance of express
-const app = express()
-const PORT = 8080
-const IP_ADDRESS = '127.0.0.1'
+const app = express();
+const PORT = 8080;
+//const IP_ADDRESS = '127.0.0.0.1';
+const IP_ADDRESS = '10.182.0.2';
 app.use(express.json({
   type: "*/*"
 }))
